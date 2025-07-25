@@ -1,0 +1,49 @@
+ui:
+  default_width: 450
+inputs_def:
+  - handle: twitterContent
+    json_schema:
+      type: string
+      ui:widget: text
+    nullable: false
+  - handle: available
+    json_schema:
+      type: boolean
+  - handle: mediaPaths
+    json_schema:
+      type: array
+      items:
+        type: string
+        ui:widget: file
+    nullable: true
+  - handle: twitterApiKey
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+  - handle: twitterApiSecret
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+  - handle: twitterAccessToken
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+  - handle: twitterAccessTokenSecret
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+outputs_def:
+  - handle: result
+    json_schema:
+      {}
+executor:
+  name: nodejs
+  options:
+    entry: main.ts
+    spawn: false
+title: twitter-publisher
+icon: ":simple-icons:twitter:"

@@ -1,11 +1,11 @@
 {
   "nodes": {
-    "+typescript#1": {
+    "+typescript#3": {
       "contentWidth": 569.2888140007476,
       "rfNode": {
         "position": {
-          "x": 185.11073074049656,
-          "y": 67.87573249202285
+          "x": 172.62805730559535,
+          "y": 1104.027959872004
         }
       },
       "sections": {
@@ -26,29 +26,87 @@
               "[]": 221.59375
             }
           }
-        }
-      }
-    },
-    "+typescript#2": {
-      "contentWidth": 538.65249781844,
-      "rfNode": {
-        "position": {
-          "x": -573.0158242520569,
-          "y": 67.87573249202285
-        }
-      },
-      "sections": {
-        "inputs": {
-          "height": {
-            "content": {
-              "[]": 137.984375
-            }
-          }
         },
         "scriptlet": {
           "cardCollapsed": true
         }
       }
+    },
+    "previewer#1": {
+      "contentWidth": 674.476974134439,
+      "rfNode": {
+        "position": {
+          "x": -721.8545236007577,
+          "y": 59.137861087592015
+        }
+      },
+      "sections": {
+        "inputs": {
+          "collapsed": {
+            "medias": {
+              "[]": false
+            },
+            "content": {
+              "[]": true
+            },
+            "mediaPaths": {
+              "[]": false
+            }
+          },
+          "height": {
+            "content": {
+              "[]": 85
+            }
+          }
+        },
+        "preview": {
+          "_:oo-preview:_": {
+            "cardCollapsed": true
+          }
+        }
+      }
+    },
+    "telegram-poster#1": {
+      "contentWidth": 568.9082548918299,
+      "rfNode": {
+        "position": {
+          "x": 172.62805730559535,
+          "y": 573.6064387545491
+        }
+      }
+    },
+    "twitter-poster#1": {
+      "contentWidth": 564.9782354009328,
+      "rfNode": {
+        "position": {
+          "x": 172.62805730559535,
+          "y": 59.137861087592015
+        }
+      }
+    }
+  },
+  "commentNodes": {
+    "+comment-1753370639565": {
+      "contentWidth": 350,
+      "rfNode": {
+        "position": {
+          "x": 206.39209089165556,
+          "y": -264.98472720221775
+        }
+      },
+      "title": "poster 重要提示",
+      "content": "\n**1. 如果输入的媒体文件发生了改变，需要 No-cache 执行**\n\n**2. 不想发布的渠道，可以设置为 `Ignore this Node`**"
+    },
+    "+comment-1753414651334": {
+      "contentWidth": 655.2098109205128,
+      "rfNode": {
+        "position": {
+          "x": -702.8545236007577,
+          "y": -706.1670243869066
+        }
+      },
+      "title": "媒体文件重要提示",
+      "content": "**1. 不同渠道上传的要求*不一致*。不符合要求的渠道会*自动跳过*。**\n> 对于文本，超出会自动截断然后发送。媒体不符合渠道要求会自动跳过该渠道。\n\n**2. 按照长度要求，截取时会尽量让剩下的内容*完整*。**\n\n**3. 建议文件不要太大。上传时受网络影响，可能导致上传失败。**\n\n## 平台支持详情\n\n| 平台 | 文本长度限制 | 文件数量限制 | 图片支持 | 视频支持 | 文档支持 |\n|------|------------|------------|----------|----------|----------|\n| **Twitter** | 280 字符 | 最多4个 | < 5MB<br/>jpg, jpeg, png, webp | < 512MB<br/>mp4, mov | 不支持 ❌ |\n| **Telegram** | 4096 字符<br/>*(媒体组 caption: 1024)* | 最多10个 | < 10MB<br/>jpg, jpeg, png, webp | < 50MB<br/>mp4, avi, mov, mkv | < 50MB<br/>pdf, txt, doc, docx, zip |\n| **LinkedIn<br/>(开发中)** | 3000 字符 | 最多9个 | < 5MB<br/>jpg, jpeg, png | < 5GB<br/>mp4 | < 100MB<br/>pdf, ppt, pptx, doc, docx |\n\n> 1. Telegram 中会优先发送`媒体组`，如果发送不成功，会自动单个发送。2. 如果发送的是媒体组且超出caption长度限制，内容会单独发送。\n"
     }
   }
 }

@@ -1,0 +1,50 @@
+ui:
+  default_width: 758.6099117087581
+inputs_def:
+  - handle: content
+    json_schema:
+      type: string
+      ui:widget: text
+  - handle: mediaPaths
+    json_schema:
+      type: array
+      items:
+        type: string
+        ui:widget: file
+    nullable: true
+outputs_def:
+  - handle: twitterContent
+    json_schema:
+      type: string
+    nullable: false
+  - handle: twitterAvailable
+    json_schema:
+      type: boolean
+  - handle: mediaPaths
+    json_schema:
+      type: array
+      items:
+        type: string
+        ui:widget: file
+    nullable: true
+  - handle: telegramContent
+    json_schema:
+      type: string
+    nullable: false
+  - handle: telegramAvailable
+    json_schema:
+      type: boolean
+  - handle: linkedinContent
+    json_schema:
+      type: string
+    nullable: false
+  - handle: linkedinAvailable
+    json_schema:
+      type: boolean
+executor:
+  name: nodejs
+  options:
+    entry: main.ts
+    spawn: false
+title: previewer
+icon: ":carbon:thumbnail-preview:"

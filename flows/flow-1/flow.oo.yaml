@@ -1,207 +1,109 @@
 nodes:
-  - node_id: +typescript#1
-    title: "poster"
+  - node_id: +typescript#3
+    title: linkedin-publisher（开发中）
     icon: ":skill-icons:typescript:"
+    inputs_from:
+      - handle: linkedinPersonId
+        value: ""
+      - handle: linkedinAccessToken
+        value: ""
+      - handle: linkedinContent
+        from_node:
+          []
+      - handle: mediaPaths
+        from_node:
+          []
+      - handle: available
+        from_node:
+          []
     task:
       ui:
         default_width: 450
       inputs_def:
-        - handle: twitterContent
-          json_schema:
-            type: string
-            ui:widget: text
-          nullable: true
         - handle: linkedinContent
           json_schema:
             type: string
-          nullable: true
-        - handle: telegramContent
-          json_schema:
-            type: string
-          nullable: true
-        - handle: medias
+          nullable: false
+        - handle: mediaPaths
           json_schema:
             type: array
+            items:
+              type: string
+              ui:widget: file
           nullable: true
-        - handle: twitterApiKey
+        - handle: available
           json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
-        - handle: twitterApiSecret
-          json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
-        - handle: twitterAccessToken
-          json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
-        - handle: twitterAccessTokenSecret
-          json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
+            type: boolean
         - handle: linkedinAccessToken
           json_schema:
             contentMediaType: oomol/secret
             type: string
-          nullable: true
+          nullable: false
         - handle: linkedinPersonId
           json_schema:
             contentMediaType: oomol/secret
             type: string
-          nullable: true
-        - handle: telegramBotToken
-          json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
-        - handle: telegramChannelId
-          json_schema:
-            contentMediaType: oomol/secret
-            type: string
-          nullable: true
-        - handle: publishToTwitter
-          json_schema:
-            type: boolean
-        - handle: publishToLinkedIn
-          json_schema:
-            type: boolean
-        - handle: publishToTelegram
-          json_schema:
-            type: boolean
+          nullable: false
       outputs_def:
-        - handle: success
+        - handle: result
           json_schema:
             {}
-        - handle: results
-          json_schema:
-            type: array
-        - handle: errors
-          json_schema:
-            type: array
       executor:
         name: nodejs
         options:
-          entry: scriptlets/+scriptlet#1.ts
-    inputs_from:
-      - handle: medias
-        value:
-        schema_overrides:
-          - path: 0
-            schema:
-              type: string
-      - handle: telegramChannelId
-        value:
-      - handle: telegramBotToken
-        value:
-      - handle: linkedinPersonId
-        value:
-      - handle: linkedinAccessToken
-        value: ""
-      - handle: twitterAccessTokenSecret
-        value: ${{OO_SECRET:Custom,twitter,accessTokenSecret}}
-      - handle: twitterAccessToken
-        value: ${{OO_SECRET:Custom,twitter,accessToken}}
-      - handle: twitterApiSecret
-        value: ${{OO_SECRET:Custom,twitter,apiSecret}}
-      - handle: twitterApiKey
-        value: ${{OO_SECRET:Custom,twitter,apiKey}}
-      - handle: twitterContent
-        value: |-
-          content: `📢 *OOMOL 工作流重要更新*
-
-          🎯 *新功能*：多平台内容发布工作流
-
-          ✨ *特性*：
-          - Twitter 同步发布
-          - LinkedIn 专业内容
-          - Telegram 频道广播
-
-          🚀 让内容发布变得更简单！
-
-          [了解更多](https://oomol.com)`
-        schema_overrides:
-          - schema:
-              type: string
-        from_node:
-          - node_id: +typescript#2
-            output_handle: twitterContent
-      - handle: linkedinContent
-        value:
-        from_node:
-          - node_id: +typescript#2
-            output_handle: linkedinContent
-      - handle: telegramContent
-        value:
-        from_node:
-          - node_id: +typescript#2
-            output_handle: telegramContent
-      - handle: publishToTwitter
-        value: false
-      - handle: publishToLinkedIn
-        value: false
-      - handle: publishToTelegram
-        value: false
-  - node_id: +typescript#2
-    title: "previewer"
-    icon: ":skill-icons:typescript:"
-    task:
-      ui:
-        default_width: 450
-      inputs_def:
-        - handle: content
-          json_schema:
-            type: string
-            ui:widget: text
-        - handle: enableTwitterOptimization
-          json_schema:
-            type: boolean
-          nullable: true
-        - handle: enableLinkedInOptimization
-          json_schema:
-            type: boolean
-          nullable: true
-        - handle: enableTelegramOptimization
-          json_schema:
-            type: boolean
-          nullable: true
-      outputs_def:
-        - handle: twitterContent
-          json_schema:
-            type: string
-          nullable: true
-        - handle: linkedinContent
-          json_schema:
-            type: string
-          nullable: true
-        - handle: telegramContent
-          json_schema:
-            type: string
-          nullable: true
-      executor:
-        name: nodejs
-        options:
-          entry: scriptlets/+scriptlet#2.ts
+          entry: scriptlets/+scriptlet#3.ts
+          spawn: false
+    ignore: true
+  - node_id: previewer#1
+    task: self::previewer
     inputs_from:
       - handle: enableTwitterOptimization
-        value:
+        value: null
       - handle: enableLinkedInOptimization
-        value:
+        value: null
       - handle: enableTelegramOptimization
-        value: false
+        value:
       - handle: content
-        value: >-
-          刚刚发布了OOMOL多平台内容发布工具！
-
-
-          ✨ 支持一键发布到Twitter、LinkedIn、Telegram
-
-          📸 支持图片、视频等多媒体内容  
-
-          🔗 了解更多：https://oomol.com
-
-
-          希望能帮助大家提升内容管理效率！
+        from_node:
+          []
+      - handle: mediaPaths
+        value:
+          []
+  - node_id: telegram-poster#1
+    title: "telegram-publisher #1"
+    inputs_from:
+      - handle: telegramContent
+        from_node:
+          - node_id: previewer#1
+            output_handle: telegramContent
+      - handle: mediaPaths
+        from_node:
+          - node_id: previewer#1
+            output_handle: mediaPaths
+      - handle: available
+        from_node:
+          - node_id: previewer#1
+            output_handle: telegramAvailable
+      - handle: telegramBotToken
+      - handle: telegramChannelId
+    task: self::telegram-poster
+  - node_id: twitter-poster#1
+    title: "twitter-publisher #1"
+    inputs_from:
+      - handle: twitterContent
+        from_node:
+          - node_id: previewer#1
+            output_handle: twitterContent
+      - handle: mediaPaths
+        from_node:
+          - node_id: previewer#1
+            output_handle: mediaPaths
+      - handle: available
+        from_node:
+          - node_id: previewer#1
+            output_handle: twitterAvailable
+      - handle: twitterApiKey
+      - handle: twitterApiSecret
+      - handle: twitterAccessToken
+      - handle: twitterAccessTokenSecret
+    task: self::twitter-poster

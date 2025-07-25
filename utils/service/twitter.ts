@@ -12,15 +12,15 @@ export class TwitterService {
         });
     }
 
-    async uploadMedia(medias: string[]): Promise<string[]> {
-        if (medias.length > 4) {
-            throw new Error("Twitter only supports up to 4 media files");
-        }
-
+    async uploadMedia(mediaPaths: string[]): Promise<string[]> {
         const mediaIds: string[] = [];
-        for (const media of medias) {
-            const mediaId = await this.client.v1.uploadMedia(media);
-            mediaIds.push(mediaId);
+        for (const filePath of mediaPaths) {
+            try {
+                const mediaId = await this.client.v1.uploadMedia(filePath);
+                mediaIds.push(mediaId);
+            } catch (error: any) {
+                throw new Error(`Twitter media upload failed for ${filePath}: ${error.message}`);
+            }
         }
         return mediaIds;
     }

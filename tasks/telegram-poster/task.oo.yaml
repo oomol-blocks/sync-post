@@ -1,0 +1,39 @@
+ui:
+  default_width: 450
+inputs_def:
+  - handle: mediaPaths
+    json_schema:
+      type: array
+      items:
+        type: string
+        ui:widget: file
+    nullable: true
+  - handle: telegramContent
+    json_schema:
+      type: string
+    nullable: false
+  - handle: available
+    json_schema:
+      type: boolean
+    nullable: false
+  - handle: telegramBotToken
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+  - handle: telegramChannelId
+    json_schema:
+      contentMediaType: oomol/secret
+      type: string
+    nullable: false
+outputs_def:
+  - handle: result
+    json_schema:
+      {}
+executor:
+  name: nodejs
+  options:
+    entry: main.ts
+    spawn: false
+title: telegram-publisher
+icon: ":simple-icons:telegram:"

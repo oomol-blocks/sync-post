@@ -3,33 +3,35 @@ import { cutChar } from "../helper";
 
 export class LinkedInOptimizer {
     static optimize(content: string): { optimized: string; stats: OptimizationStats } {
+        const config = SOCIAL_MEDIA_CONFIG.LINKEDIN;
         const originalLength = content.length;
-        let optimized = content;
+        
+        // LinkedIn特定优化
+        let optimized = content
+            .replace(/\n{3,}/g, '\n\n'); // 确保段落间适当间距
 
-        // 确保段落间有适当间距
-        optimized = optimized.replace(/\n{3,}/g, '\n\n');
-
-        // 检查字符数限制
-        const { LINKEDIN } = SOCIAL_MEDIA_CONFIG;
-        const cutLimit = LINKEDIN.CHAR_LIMIT - LINKEDIN.CUT_BUFFER;
-        optimized = cutChar(optimized, LINKEDIN.CHAR_LIMIT, cutLimit, LINKEDIN.CUT_POINTS, LINKEDIN.MIN_CUT_LENGTH)
-
-        const finalLength = optimized.length;
-        const withinLimit = finalLength <= LINKEDIN.CHAR_LIMIT;
-        const truncated = finalLength < originalLength;
-
-        const stats: OptimizationStats = {
-            length: finalLength,
-            withinLimit,
-            truncated,
-            originalLength,
-            limit: LINKEDIN.CHAR_LIMIT
-        };
-
+        // 应用字符限制
+        optimized = cutChar(
+            optimized, 
+            config.CHAR_LIMIT, 
+            config.CHAR_LIMIT - config.CUT_BUFFER, 
+            config.CUT_POINTS, 
+            config.MIN_CUT_LENGTH
+        );
 
         return {
             optimized,
-            stats
+            stats: this.createStats(originalLength, optimized.length, config.CHAR_LIMIT)
+        };
+    }
+
+    private static createStats(originalLength: number, finalLength: number, limit: number): OptimizationStats {
+        return {
+            length: finalLength,
+            withinLimit: finalLength <= limit,
+            truncated: finalLength < originalLength,
+            originalLength,
+            limit
         };
     }
 }
