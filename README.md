@@ -1,14 +1,32 @@
-# sync-post
+<div align=center>
+  <h1>Social Media Publisher</h1>
+  <p><a href="./README_CN.md">中文</a> | English</p>
+</div>
 
-## poster 配置说明
+An OOMOL-based multi-platform content publishing tool that can simultaneously publish content to Twitter, Telegram, and LinkedIn (in development), with automatic content format optimization to adapt to each platform's limitations.
 
-### 发布到推特
+## ✨ Features
+
+- **Multi-platform Support**: Supports Twitter and Telegram
+- **Content Optimization**: Automatically optimizes content format to comply with character limits on each platform
+- **Media File Processing**: Supports various media types including images, videos, and documents
+- **Smart Validation**: Pre-publish validation to check content and media file compatibility
+- **Batch Publishing**: One-time configuration for multi-platform synchronized publishing
+
+## 📊 Platform Support Details
+
+| Platform | Text Length Limit | File Count Limit | Image Support | Video Support | Document Support |
+|----------|------------------|------------------|---------------|---------------|------------------|
+| **Twitter** | 280 characters | Max 4 files | < 5MB<br/>jpg, jpeg, png, webp | < 512MB<br/>mp4, mov | Not supported ❌ |
+| **Telegram** | 4096 characters<br/>*(Media group caption: 1024)* | Max 10 files | < 10MB<br/>jpg, jpeg, png, webp | < 50MB<br/>mp4, avi, mov, mkv | < 50MB<br/>pdf, txt, doc, docx, zip |
+| **LinkedIn<br/>(In Development)** | 3000 characters | Max 9 files | < 5MB<br/>jpg, jpeg, png | < 5GB<br/>mp4 | < 100MB<br/>pdf, ppt, pptx, doc, docx |
+
+## `twitter-publisher` Publish to Twitter
 
 ```ts
 type Inputs = {
-    twitterContent: string;     // 发布内容
-    medias?: string[] | null;   // （可选）媒体文件
-    publishToTwitter?: boolean; // 发布平台选择（如果发布到推特，需要设置为 true）
+    twitterContent: string;     // Content to publish
+    mediaPaths?: string[] | null;   // (Optional) Media files
     twitterApiKey: string;
     twitterApiSecret: string;
     twitterAccessToken: string;
@@ -16,32 +34,97 @@ type Inputs = {
 };
 ```
 
-#### 获取 API 认证信息
+### Getting API Authentication Information
 
-1. 创建 Twitter Developer 账户
-* 访问 [Twitter Developer Portal](https://developer.x.com/en)
-* 使用你的 Twitter 账户登录
-* 申请开发者账户（可以选注册免费版本）
+1. Create Twitter Developer Account
+* Visit [Twitter Developer Portal](https://developer.x.com/en)
+* Log in with your Twitter account
+* Apply for developer account (you can choose to register for free version)
 
-2. 创建应用程序
-* 登录后进入 Developer Portal
-* 点击 "Projects & Apps"
-* 点击 "Default project-xxx" 进入默认创建的应用
+2. Create Application
+* After logging in, go to Developer Portal
+* Click "Projects & Apps"
+* Click "Default project-xxx" to enter the default created application
 
-3. 获取 API Keys 和 Tokens
-**（1）API Key 和 API Secret Key：**
-* 在应用的 "Keys and Tokens" 标签页
-* 在 "Consumer Keys" 部分可以找到（如果没有则点击生成）：
-    * API Key (对应代码中的 twitterApiKey)
-    * API Secret Key (对应代码中的 twitterApiSecret)
-**（2）Access Token 和 Access Token Secret**
-* 在同一页面的 "Access Token and Secret" 部分
-* 点击 "Generate" 生成：
-    * Access Token (对应代码中的 twitterAccessToken)
-    * Access Token Secret (对应代码中的 twitterAccessTokenSecret)
+3. Get API Keys and Tokens
+**(1) API Key and API Secret Key:**
+* In the application's "Keys and Tokens" tab
+* Find in the "Consumer Keys" section (click generate if not available):
+    * API Key (corresponds to twitterApiKey in code)
+    * API Secret Key (corresponds to twitterApiSecret in code)
+**(2) Access Token and Access Token Secret**
+* In the "Access Token and Secret" section on the same page
+* Click "Generate" to create:
+    * Access Token (corresponds to twitterAccessToken in code)
+    * Access Token Secret (corresponds to twitterAccessTokenSecret in code)
 
-4. 设置权限
-* 在 "App permissions" 中设置为 "Read and Write" 权限
-* **如果此前没有设置该项，则设置后需要重新生成 Access Token and Secret**
+4. Set Permissions
+* Set "App permissions" to "Read and Write" permissions
+* **If this wasn't set before, you need to regenerate Access Token and Secret after setting it**
 
-> Access Token and Secret 下有权限提示 “Created with Read and Write permissions”
+> Under Access Token and Secret, there should be a permission notice "Created with Read and Write permissions"
+
+### Running
+
+After obtaining all keys, input the content to send and upload files to send, then click the run button on the `twitter-post` node.
+
+## `telegram-publisher` Publish to Telegram
+
+```ts
+type Inputs = {
+    telegramContent: string;
+    mediaPaths: any[] | null;
+    telegramBotToken: string;
+    telegramChannelId: string;
+};
+```
+
+### Getting API Authentication Information
+
+1. Create Telegram Bot
+* Search for `@BotFather` in Telegram
+* Send `/newbot` command
+* Follow prompts to set bot name and username
+* Get Bot Token (format: 123456789:ABCdefGHIjklMNOpqrSTUvwxYZ)
+
+2. Get Channel ID
+* Create a Telegram channel
+* Add your bot as channel administrator
+* Channel ID has two formats:
+    * Public channel: @channelname
+    * Private channel: Numeric ID (e.g., -1001234567890)
+
+### Method to Get Numeric ID
+
+* Use bot to send message to channel, then call getUpdates API
+* Or use online tools like @userinfobot to forward channel messages to get ID
+
+> Send at least one message in the channel. Then execute in console: `curl https://api.telegram.org/bot${your-bot-token}/getUpdates` where id is the channel id.
+
+### Running
+
+After obtaining all keys, input the content to send and upload files to send, then click the run button on the `telegram-post` node.
+
+## ⚙️ Content Optimization Rules
+
+### Twitter
+- **Optimization Strategy**: Remove extra line breaks, smart truncation when exceeding length
+- **Media Support**: Only supports images and videos
+
+### Telegram
+- **Optimization Strategy**: 
+  - Convert tags to bold format (`#tag` → `*#tag*`)
+  - Convert links to Markdown format
+  - Automatically send individually if media group sending fails
+- **Media Support**: Supports images, videos, and documents
+
+### LinkedIn *(In Development)*
+- **Optimization Strategy**: Maintain professional format, optimize paragraph structure
+- **Media Support**: Supports images, videos, and documents
+
+## ⚠️ Important Notes
+
+### Smart Skip Mechanism
+- **Text Processing**: Automatically truncate when exceeding length limits, trying to keep remaining content complete
+- **Media Processing**: Media files that don't meet channel requirements will automatically skip that channel, other compliant channels will publish normally
+- **File Size**: Recommend not uploading overly large files, network issues may cause upload failures
