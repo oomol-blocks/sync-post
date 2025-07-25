@@ -5,3 +5,10 @@ scripts:
   bootstrap: |
     npm install
     poetry install --no-root
+dependencies:
+  {}
+name: social-media-publisher
+description: Social Media Publisher
+displayName: Social Media Publisher
+repository: https://github.com/oomol-blocks/sync-post.git
+releaseNotes: support twitter & telegram
